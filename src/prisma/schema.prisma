@@ -12,3 +12,17 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Session {
+  sid    String   @id @default(uuid())
+  sess   Json
+  expire DateTime
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  username String
+  password String
+  isAdmin  Boolean  @default(false)
+  joined   DateTime @default(now())
+}
