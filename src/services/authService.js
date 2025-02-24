@@ -1,5 +1,5 @@
 const passport = require("passport");
-const bycrpyt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
 const { PrismaClient } = require("@prisma/client");
 
@@ -13,7 +13,8 @@ passport.use(
         return done(null, false, { message: "Incorrect username." });
       }
 
-      const isMatch = await bcrypt.compare(password, user.password);
+      // const isMatch = await bcrypt.compare(password, user.password);
+      const isMatch = password === user.password;
       if (!isMatch) {
         return done(null, false, { message: "Incorrect password." });
       }
