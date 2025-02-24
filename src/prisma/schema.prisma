@@ -14,9 +14,10 @@ datasource db {
 }
 
 model Session {
-  sid    String   @id @default(uuid())
-  sess   Json
-  expire DateTime
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
 }
 
 model User {
