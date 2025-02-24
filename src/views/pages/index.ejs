@@ -7,6 +7,36 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1><%= title %></h1>
+    <header>
+        <h1><%= title %></h1>
+    </header>
+    <main>
+        <% if (locals.user) { %>
+            <h2>Welcome back <%= user.username %></h2>
+        <% } else { %>
+            <form action="/login" method="post">
+                <ul>
+                    <li>
+                        <label for="username">Username: </label>
+                        <input type="text" name="username" id="username" minlength="1" maxlength="30" required>
+                    </li>
+                    <li>
+                        <label for="password">Password: </label>
+                        <input type="password" name="password" id="password" minlength="8" required>
+                    </li>
+                    <li>
+                        <label for="confirmPassword">Confirm Password: </label>
+                        <input type="password" name="confirmPassword" id="confirmPassword" required>
+                    </li>
+                    <li>
+                        <button type="submit">Submit</button>
+                    </li>
+                </ul>
+            </form>
+        <% } %>
+    </main>
+    <footer>
+
+    </footer>
 </body>
 </html>
