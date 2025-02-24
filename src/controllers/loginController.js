@@ -7,7 +7,6 @@ function verifyLogin(req, res, next) {
     }
     if (!user) {
       // Authentication failed, re-render the homepage with an error message
-      console.log(`Authentication failed`);
       return res.render("pages/index", {
         error: "Invalid username or password",
       });
@@ -17,7 +16,6 @@ function verifyLogin(req, res, next) {
         return next(error);
       }
       // Authentication succeeded, redirect to /main
-      console.log(`Authentication succeeded`);
       return res.redirect("/");
     });
   })(req, res, next);

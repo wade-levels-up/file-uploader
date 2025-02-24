@@ -12,6 +12,7 @@ const checkAuth = require("./src/middleware/ensureAuthenticated");
 // Require Routes
 const indexRouter = require("./src/routes/indexRouter");
 const loginRouter = require("./src/routes/loginRouter");
+const signUpRouter = require("./src/routes/signUpRouter");
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use(passport.session());
 ////  Public Routes
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
+app.use("/sign-up", signUpRouter);
 
 ////  Middleware to ensure authentication for routes below
 app.use(checkAuth.isAuth);

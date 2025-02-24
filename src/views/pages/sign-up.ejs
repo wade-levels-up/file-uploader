@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Uploader</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Sign Up</h1>
+    <% if (locals.error) { %>
+        <span><%= locals.error %></span>
+    <% } %>
+    <form action="/sign-up" method="post">
+        <ul>
+            <li>
+                <label for="username">Username: </label>
+                <input type="text" name="username" id="username" minlength="1" maxlength="30" required>
+            </li>
+            <li>
+                <label for="password">Password: </label>
+                <input type="password" name="password" id="password" minlength="8" required>
+            </li>
+            <li>
+                <button type="submit">Submit</button>
+            </li>
+        </ul>
+    </form>
+</body>
+</html>
