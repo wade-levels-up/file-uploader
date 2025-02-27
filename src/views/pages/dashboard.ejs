@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Uploader</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1><%= user.username %>'s Dashboard</h1><a href="/log-out">Logout</a>
+    </header>
+    <main>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <ul>
+                <li>
+                    <label for="file">Upload New File:</label>
+                    <input type="file" id="file" name="file" accept=".jpeg, .jpg, .png, .wav, .mp3, .pdf, .doc, .docx, .txt" size="">
+                </li>
+                <li>
+                    <button type="submit">Upload</button>
+                </li>
+            </ul>
+        </form>       
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>

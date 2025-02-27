@@ -13,6 +13,7 @@
     <main>
         <% if (locals.user) { %>
             <h2>Welcome back <%= user.username %></h2>
+            <a href="/dashboard">Continue To Dashboard</a>
             <a href="/log-out">Logout</a>
         <% } else { %>
             <h2>Log In</h2>
