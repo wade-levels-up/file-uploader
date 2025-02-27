@@ -23,8 +23,4 @@ async function createNewUser(username, password) {
   });
 }
 
-async function deleteAllUsers() {
-  a;
-}
-
 module.exports = { getUserByUsername, createNewUser };

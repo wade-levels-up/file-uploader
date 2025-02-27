@@ -6,13 +6,14 @@ const session = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
 
-const passport = require("./src/services/authService"); // Import the authService
+const passport = require("./src/services/authService");
 const checkAuth = require("./src/middleware/ensureAuthenticated");
 
 // Require Routes
 const indexRouter = require("./src/routes/indexRouter");
 const loginRouter = require("./src/routes/loginRouter");
 const signUpRouter = require("./src/routes/signUpRouter");
+const logoutRouter = require("./src/routes/logoutRouter");
 
 const app = express();
 
@@ -47,6 +48,7 @@ app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
 app.use("/sign-up", signUpRouter);
+app.use("/log-out", logoutRouter);
 
 ////  Middleware to ensure authentication for routes below
 app.use(checkAuth.isAuth);
