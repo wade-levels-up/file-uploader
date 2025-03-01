@@ -18,6 +18,17 @@
                     <input type="file" id="file" name="file" accept=".jpeg, .jpg, .png, .wav, .mp3, .pdf, .doc, .docx, .txt" size="">
                 </li>
                 <li>
+                    <label for="upload_destination">Upload Destination: </label>
+                    <select name="upload_destination" id="upload_destination">
+                        <option value="Home">Home</option>
+                        <% if ( locals.folders ) { %>
+                            <% folders.forEach((folder) => { %>
+                                <option value="<%= folder.id %>"><%= folder.name %></option>
+                            <% }) %>
+                        <% } %>
+                    </select>
+                </li>
+                <li>
                     <button type="submit">Upload</button>
                 </li>
             </ul>
@@ -39,6 +50,12 @@
         <section>
             <% if ( locals.folders ) { %>
                 <h3>📂 Viewing Folder: <%= viewing_folder %></h3>
+                <div>
+                    <h3>Folders within this destination</h3>
+                    <% if (viewing_folder !== 'Home') { %>
+                        <a href="/dashboard">Back to home</a>
+                    <% } %>
+                </div>
                 <ul>
                     <% folders.forEach((folder) => { %>
                         <li class="folder-li">
@@ -67,9 +84,16 @@
                         </li>
                     <% }) %>
                 </ul>
-                <% if (viewing_folder !== 'Home') { %>
-                    <a href="/dashboard">Back to home</a>
-                <% } %>
+            <% } %>
+            <% if (locals.files) { %>
+                <h3>Files within this destination</h3>  
+                <ul>
+                    <% files.forEach((file) => { %>
+                        <li>
+                            <span>💾 <%= file.name %></span>
+                        </li>
+                    <% }) %>
+                </ul>
             <% } %>
         </section>          
     </main>

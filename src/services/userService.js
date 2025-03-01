@@ -81,6 +81,32 @@ async function renameFolder(id, new_name) {
   });
 }
 
+async function createNewFile(name, type, size, destination, folderId, userId) {
+  await executeWithPrisma(async (prisma) => {
+    await prisma.file.create({
+      data: {
+        name: name,
+        type: type,
+        size: size,
+        destination: destination,
+        folderId: folderId,
+        userId: userId,
+      },
+    });
+  });
+}
+
+async function getFilesByFolderId(folderId) {
+  return await executeWithPrisma(async (prisma) => {
+    const files = await prisma.file.findMany({
+      where: {
+        folderId: folderId,
+      },
+    });
+    return files;
+  });
+}
+
 module.exports = {
   getUserByUsername,
   createNewUser,
@@ -89,4 +115,6 @@ module.exports = {
   getFoldersByParentId,
   deleteFolder,
   renameFolder,
+  createNewFile,
+  getFilesByFolderId,
 };
