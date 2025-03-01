@@ -30,6 +30,10 @@ body {
     color: azure;
 }
 
+.folder-li {
+    padding: 8px;
+}
+
 .folder-li div {
     display: flex;
     flex-direction: row;
@@ -42,4 +46,11 @@ body {
 
 .folder-li form ul {
     display: flex;
+}
+
+.file-li {
+    display: flex;
+    gap: 12px;
+    padding: 3px;
+    align-items: center;
 }

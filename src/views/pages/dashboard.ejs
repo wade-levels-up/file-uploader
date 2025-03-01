@@ -15,7 +15,7 @@
             <ul>
                 <li>
                     <label for="file">Upload New File:</label>
-                    <input type="file" id="file" name="file" accept=".jpeg, .jpg, .png, .wav, .mp3, .pdf, .doc, .docx, .txt" size="">
+                    <input type="file" id="file" name="file" accept=".jpeg, .jpg, .png, .wav, .mp3, .pdf, .doc, .docx, .txt" required>
                 </li>
                 <li>
                     <label for="upload_destination">Upload Destination: </label>
@@ -49,7 +49,7 @@
         </form>  
         <section>
             <% if ( locals.folders ) { %>
-                <h3>📂 Viewing Folder: <%= viewing_folder %></h3>
+                <h3>📂 Viewing Folder: <%= viewing_folder ? viewing_folder : 'Home' %></h3>
                 <div>
                     <h3>Folders within this destination</h3>
                     <% if (viewing_folder !== 'Home') { %>
@@ -89,8 +89,13 @@
                 <h3>Files within this destination</h3>  
                 <ul>
                     <% files.forEach((file) => { %>
-                        <li>
-                            <span>💾 <%= file.name %></span>
+                        <li class="file-li">
+                            <a href="/dashboard/file/<%= file.id %>?name=<%= file.name %>">💾 <%= file.name %></a>
+                            <form action="/delete-file" method="post">
+                                <input type="hidden" id="folder_id" name="folder_id" value="<%= file.folderId %>">
+                                <input type="hidden" id="file_id" name="file_id" value="<%= file.id %>">
+                                <button>DELETE</button>
+                            </form>
                         </li>
                     <% }) %>
                 </ul>

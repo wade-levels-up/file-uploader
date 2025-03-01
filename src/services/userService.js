@@ -35,6 +35,17 @@ async function getAllFolders(userId) {
   });
 }
 
+async function getFolderById(id) {
+  return await executeWithPrisma(async (prisma) => {
+    const folder = await prisma.folder.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return folder;
+  });
+}
+
 async function getFoldersByParentId(parentId) {
   return await executeWithPrisma(async (prisma) => {
     const folders = await prisma.folder.findMany({
@@ -107,14 +118,38 @@ async function getFilesByFolderId(folderId) {
   });
 }
 
+async function getFileById(id) {
+  return await executeWithPrisma(async (prisma) => {
+    const file = await prisma.file.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return file;
+  });
+}
+
+async function deleteFileById(fileId) {
+  return await executeWithPrisma(async (prisma) => {
+    await prisma.file.delete({
+      where: {
+        id: fileId,
+      },
+    });
+  });
+}
+
 module.exports = {
   getUserByUsername,
   createNewUser,
   createNewFolder,
   getAllFolders,
+  getFolderById,
   getFoldersByParentId,
   deleteFolder,
   renameFolder,
   createNewFile,
+  getFileById,
   getFilesByFolderId,
+  deleteFileById,
 };
