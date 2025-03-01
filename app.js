@@ -16,6 +16,7 @@ const signUpRouter = require("./src/routes/signUpRouter");
 const logoutRouter = require("./src/routes/logoutRouter");
 const dashboardRouter = require("./src/routes/dashboardRouter");
 const uploadRouter = require("./src/routes/uploadRouter");
+const newFolderRouter = require("./src/routes/newFolderRouter");
 
 const app = express();
 
@@ -58,6 +59,7 @@ app.use(checkAuth.isAuth);
 ////  Protected Routes
 app.use("/dashboard", dashboardRouter);
 app.use("/upload", uploadRouter);
+app.use("/new-folder", newFolderRouter);
 
 // Error handling
 

@@ -2,7 +2,7 @@ const prisma = require("../utils/prismaClient");
 
 async function executeWithPrisma(callback) {
   try {
-    await callback(prisma);
+    return await callback(prisma);
   } catch (e) {
     console.error(e);
   } finally {

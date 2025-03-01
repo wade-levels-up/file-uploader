@@ -21,7 +21,36 @@
                     <button type="submit">Upload</button>
                 </li>
             </ul>
-        </form>       
+        </form>
+        <form action="/new-folder" method="post">
+            <ul>
+                <li>
+                    <h2>Create New Folder</h2>
+                </li>
+                <li>
+                    <label for="folder">Folder name:</label>
+                    <input type="text" id="folder" name="folder" required>
+                </li>
+                <li>
+                    <button type="submit">Create</button>
+                </li>
+            </ul>
+        </form>  
+        <section>
+            <% if ( locals.folders ) { %>
+                <h3>Folders</h3>
+                <ul>
+                    <% folders.forEach((folder) => { %>
+                        <li>
+                            <div>
+                                <p><%= folder.name %></p> 
+                                <form action="/delete-folder" method="post"><button>DELETE</button></form>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } %>
+        </section>          
     </main>
     <footer>
 

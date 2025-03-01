@@ -26,4 +26,26 @@ model User {
   password String
   isAdmin  Boolean  @default(false)
   joined   DateTime @default(now())
+  folders  Folder[]
+}
+
+model Folder {
+  id             Int      @id @default(autoincrement())
+  name           String   @unique
+  created        DateTime @default(now())
+  files          File[]
+  User           User?    @relation(fields: [userId], references: [id])
+  userId         Int?
+  parentFolder   Folder?  @relation("Subfolders", fields: [parentFolderId], references: [id])
+  parentFolderId Int?
+  subfolders     Folder[] @relation("Subfolders")
+}
+
+model File {
+  id       Int      @id @default(autoincrement())
+  type     String
+  size     Int
+  created  DateTime @default(now())
+  Folder   Folder?  @relation(fields: [folderId], references: [id])
+  folderId Int?
 }
