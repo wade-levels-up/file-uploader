@@ -35,6 +35,17 @@ async function getAllFolders(userId) {
   });
 }
 
+async function getFoldersByParentId(parentId) {
+  return await executeWithPrisma(async (prisma) => {
+    const folders = await prisma.folder.findMany({
+      where: {
+        parentFolderId: parentId,
+      },
+    });
+    return folders;
+  });
+}
+
 async function createNewFolder(name, userId, parentFolderId) {
   await executeWithPrisma(async (prisma) => {
     await prisma.folder.create({
@@ -75,6 +86,7 @@ module.exports = {
   createNewUser,
   createNewFolder,
   getAllFolders,
+  getFoldersByParentId,
   deleteFolder,
   renameFolder,
 };

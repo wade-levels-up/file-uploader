@@ -6,6 +6,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    list-style: none;
 }
 
 input, button, textarea, select {
@@ -27,4 +28,18 @@ h1, h2, h3, h4, h5, h6 {
 body {
     background-color: black;
     color: azure;
+}
+
+.folder-li div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 3px;
+    gap: 12px;
+    border: 1px solid white;
+    border-radius: 3px;
+}
+
+.folder-li form ul {
+    display: flex;
 }

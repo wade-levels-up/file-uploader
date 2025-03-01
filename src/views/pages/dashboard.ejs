@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Uploader</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <header>
@@ -38,37 +38,38 @@
         </form>  
         <section>
             <% if ( locals.folders ) { %>
-                <h3>Folders</h3>
+                <h3>📂 Viewing Folder: <%= viewing_folder %></h3>
                 <ul>
                     <% folders.forEach((folder) => { %>
-                        <li>
+                        <li class="folder-li">
                             <div>
-                                <p><%= folder.name %></p> 
-                                <details>
-                                    <summary>Actions</summary>
-                                    <form action="/delete-folder" method="post">
-                                        <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
-                                        <button>DELETE</button>
-                                    </form>
-                                    <form action="/rename-folder" method="post">
-                                        <ul>
-                                            <li>
-                                                <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
-                                            </li>
-                                            <li>
-                                                <label for="rename">Rename folder: </label>
-                                                <input type="text" id="rename" name="rename" required>
-                                            </li>
-                                            <li>
-                                                <button type="submit">Submit</button>
-                                            </li>
-                                        </ul>
-                                    </form>
-                                </details>
+                                <span>📁</span>
+                                <a href="/dashboard/folder/<%= folder.id %>?name=<%= folder.name %>"><%= folder.name %></a> 
+                                <form action="/rename-folder" method="post">
+                                    <ul>
+                                        <li>
+                                            <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
+                                        </li>
+                                        <li>
+                                            <label for="rename">Rename folder: </label>
+                                            <input type="text" id="rename" name="rename" required>
+                                        </li>
+                                        <li>
+                                            <button type="submit">Submit</button>
+                                        </li>
+                                    </ul>
+                                </form>
+                                <form action="/delete-folder" method="post">
+                                    <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
+                                    <button>DELETE</button>
+                                </form>
                             </div>
                         </li>
                     <% }) %>
                 </ul>
+                <% if (viewing_folder !== 'Home') { %>
+                    <a href="/dashboard">Back to home</a>
+                <% } %>
             <% } %>
         </section>          
     </main>
