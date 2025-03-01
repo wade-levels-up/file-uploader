@@ -44,10 +44,27 @@
                         <li>
                             <div>
                                 <p><%= folder.name %></p> 
-                                <form action="/delete-folder" method="post">
-                                    <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
-                                    <button>DELETE</button>
-                                </form>
+                                <details>
+                                    <summary>Actions</summary>
+                                    <form action="/delete-folder" method="post">
+                                        <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
+                                        <button>DELETE</button>
+                                    </form>
+                                    <form action="/rename-folder" method="post">
+                                        <ul>
+                                            <li>
+                                                <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
+                                            </li>
+                                            <li>
+                                                <label for="rename">Rename folder: </label>
+                                                <input type="text" id="rename" name="rename" required>
+                                            </li>
+                                            <li>
+                                                <button type="submit">Submit</button>
+                                            </li>
+                                        </ul>
+                                    </form>
+                                </details>
                             </div>
                         </li>
                     <% }) %>

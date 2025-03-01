@@ -57,10 +57,24 @@ async function deleteFolder(id) {
   });
 }
 
+async function renameFolder(id, new_name) {
+  await executeWithPrisma(async (prisma) => {
+    await prisma.folder.update({
+      data: {
+        name: new_name,
+      },
+      where: {
+        id: id,
+      },
+    });
+  });
+}
+
 module.exports = {
   getUserByUsername,
   createNewUser,
   createNewFolder,
   getAllFolders,
   deleteFolder,
+  renameFolder,
 };
