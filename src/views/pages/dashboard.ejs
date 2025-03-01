@@ -48,57 +48,68 @@
             </ul>
         </form>  
         <section>
-            <% if ( locals.folders ) { %>
-                <h3>📂 Viewing Folder: <%= viewing_folder ? viewing_folder : 'Home' %></h3>
-                <div>
-                    <h3>Folders within this destination</h3>
-                    <% if (viewing_folder !== 'Home') { %>
-                        <a href="/dashboard">Back to home</a>
-                    <% } %>
-                </div>
-                <ul>
-                    <% folders.forEach((folder) => { %>
-                        <li class="folder-li">
-                            <div>
-                                <span>📁</span>
-                                <a href="/dashboard/folder/<%= folder.id %>?name=<%= folder.name %>"><%= folder.name %></a> 
-                                <form action="/rename-folder" method="post">
-                                    <ul>
-                                        <li>
-                                            <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
-                                        </li>
-                                        <li>
-                                            <label for="rename">Rename folder: </label>
-                                            <input type="text" id="rename" name="rename" required>
-                                        </li>
-                                        <li>
-                                            <button type="submit">Submit</button>
-                                        </li>
-                                    </ul>
-                                </form>
-                                <form action="/delete-folder" method="post">
-                                    <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
+            <% if ( !locals.viewing_file ) { %>
+                <% if ( locals.folders ) { %>
+                    <h3>📂 Viewing Folder: <%= viewing_folder ? viewing_folder : 'Home' %></h3>
+                    <div>
+                        <h3>Folders within this destination</h3>
+                        <% if (locals.viewing_folder) { %>
+                            <a href="/dashboard">Back to home</a>
+                        <% } %>
+                    </div>
+                    <ul>
+                        <% folders.forEach((folder) => { %>
+                            <li class="folder-li">
+                                <div>
+                                    <span>📁</span>
+                                    <a href="/dashboard/folder/<%= folder.id %>?name=<%= folder.name %>"><%= folder.name %></a> 
+                                    <form action="/rename-folder" method="post">
+                                        <ul>
+                                            <li>
+                                                <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
+                                            </li>
+                                            <li>
+                                                <label for="rename">Rename folder: </label>
+                                                <input type="text" id="rename" name="rename" required>
+                                            </li>
+                                            <li>
+                                                <button type="submit">Submit</button>
+                                            </li>
+                                        </ul>
+                                    </form>
+                                    <form action="/delete-folder" method="post">
+                                        <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
+                                        <button>DELETE</button>
+                                    </form>
+                                </div>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } %>
+                <% if (locals.files) { %>
+                    <h3>Files within this destination</h3>  
+                    <ul>
+                        <% files.forEach((file) => { %>
+                            <li class="file-li">
+                                <a href="/dashboard/file/<%= file.id %>?name=<%= file.name %>">💾 <%= file.name %></a>
+                                <form action="/delete-file" method="post">
+                                    <input type="hidden" id="folder_id" name="folder_id" value="<%= file.folderId %>">
+                                    <input type="hidden" id="file_id" name="file_id" value="<%= file.id %>">
                                     <button>DELETE</button>
                                 </form>
-                            </div>
-                        </li>
-                    <% }) %>
-                </ul>
-            <% } %>
-            <% if (locals.files) { %>
-                <h3>Files within this destination</h3>  
-                <ul>
-                    <% files.forEach((file) => { %>
-                        <li class="file-li">
-                            <a href="/dashboard/file/<%= file.id %>?name=<%= file.name %>">💾 <%= file.name %></a>
-                            <form action="/delete-file" method="post">
-                                <input type="hidden" id="folder_id" name="folder_id" value="<%= file.folderId %>">
-                                <input type="hidden" id="file_id" name="file_id" value="<%= file.id %>">
-                                <button>DELETE</button>
-                            </form>
-                        </li>
-                    <% }) %>
-                </ul>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } %>
+            <% } else { %>
+                <h3>Viewing file details: <%= viewing_file.name %></h4>
+                <div>
+                    <p>Name: <%= viewing_file.name %></p>
+                    <p>Size: <%= (viewing_file.size / 1048576 ).toFixed(2) %> <abbr title="megabytes">MB's</abbr></p>
+                    <p>Type: <%= viewing_file.type %></p>
+                    <p>Added: <%= viewing_file.created %></p>
+                </div>
+                <a href="javascript:history.back()">Back</a>
             <% } %>
         </section>          
     </main>
