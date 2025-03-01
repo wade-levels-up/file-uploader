@@ -71,6 +71,11 @@ async function createNewFolder(name, userId, parentFolderId) {
 
 async function deleteFolder(id) {
   await executeWithPrisma(async (prisma) => {
+    await prisma.file.deleteMany({
+      where: {
+        folderId: id,
+      },
+    });
     await prisma.folder.delete({
       where: {
         id: id,
@@ -107,11 +112,12 @@ async function createNewFile(name, type, size, destination, folderId, userId) {
   });
 }
 
-async function getFilesByFolderId(folderId) {
+async function getFilesByFolderId(folderId, userId) {
   return await executeWithPrisma(async (prisma) => {
     const files = await prisma.file.findMany({
       where: {
         folderId: folderId,
+        userId: userId,
       },
     });
     return files;
