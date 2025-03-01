@@ -44,7 +44,10 @@
                         <li>
                             <div>
                                 <p><%= folder.name %></p> 
-                                <form action="/delete-folder" method="post"><button>DELETE</button></form>
+                                <form action="/delete-folder" method="post">
+                                    <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
+                                    <button>DELETE</button>
+                                </form>
                             </div>
                         </li>
                     <% }) %>
