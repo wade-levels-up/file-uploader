@@ -92,7 +92,7 @@
                         <% files.forEach((file) => { %>
                             <li class="file-li">
                                 <a href="/dashboard/file/<%= file.id %>?name=<%= file.name %>">💾 <%= file.name %></a>
-                                <a href="<%= file.destination %>?download=<%= file.originalname %>">Download</a>
+                                <a href="/download/<%= file.id %>">Download</a>
                                 <form action="/delete-file" method="post">
                                     <input type="hidden" id="folder_id" name="folder_id" value="<%= file.folderId %>">
                                     <input type="hidden" id="file_id" name="file_id" value="<%= file.id %>">

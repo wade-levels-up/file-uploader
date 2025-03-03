@@ -20,6 +20,7 @@ const newFolderRouter = require("./src/routes/newFolderRouter");
 const deleteFolderRouter = require("./src/routes/deleteFolderRouter");
 const renameFolderRouter = require("./src/routes/renameFolderRouter");
 const deleteFileRouter = require("./src/routes/deleteFileRouter");
+const downloadFileRouter = require("./src/routes/downloadFileRouter");
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.use("/new-folder", newFolderRouter);
 app.use("/delete-folder", deleteFolderRouter);
 app.use("/rename-folder", renameFolderRouter);
 app.use("/delete-file", deleteFileRouter);
+app.use("/download", downloadFileRouter);
 
 // Error handling
 

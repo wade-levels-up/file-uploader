@@ -14,7 +14,7 @@ const uploadFile = asyncHandler(async (req, res) => {
 
     // Supabase
 
-    const filePath = `public/${Date.now()}-${req.file.originalname}`;
+    const filePath = `${Date.now()}-${req.file.originalname}`;
     const { data, error } = await supabase.storage
       .from("file_uploader")
       .upload(filePath, req.file.buffer);
