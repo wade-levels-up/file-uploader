@@ -1,26 +1,45 @@
 const asyncHandler = require("express-async-handler");
 const userService = require("../services/userService");
+const supabase = require("../utils/supabaseClient");
 
 const uploadFile = asyncHandler(async (req, res) => {
   try {
     let upload_destination = req.body.upload_destination;
-    const viewing_folder = await userService.getFolderById(
-      +req.body.upload_destination
-    );
+    let viewing_folder;
+    if (req.body.upload_destination !== "Home") {
+      viewing_folder = await userService.getFolderById(
+        +req.body.upload_destination
+      );
+    }
+
+    // Supabase
+
+    const { data, error } = await supabase.storage
+      .from("file_uploader")
+      .upload(`public/${Date.now()}-${req.file.originalname}`, req.file.buffer);
+
+    if (error) {
+      throw new Error(`Supabase upload error: ${error.message}`);
+    }
+
+    const publicURL = supabase.storage
+      .from("file_uploader")
+      .getPublicUrl(data.path);
+
+    const fileUrl = publicURL.data.publicUrl;
+
+    // Storing meta-data in local PostgreSQL database
 
     await userService.createNewFile(
       req.file.originalname,
       req.file.mimetype,
       req.file.size,
-      req.file.destination,
+      fileUrl,
       +upload_destination,
       req.user.id
     );
-    console.log(
-      `File: ${req.file.originalname} Size: ${req.file.size} Type: ${req.file.mimetype}`
-    );
 
-    if (upload_destination) {
+    if (upload_destination !== "Home") {
       res.redirect(
         `/dashboard/folder/${upload_destination}?name=${viewing_folder.name}`
       );
@@ -28,7 +47,7 @@ const uploadFile = asyncHandler(async (req, res) => {
       res.redirect("/dashboard");
     }
   } catch (error) {
-    throw new Error(`Couldn't log out ${error}`);
+    throw new Error(`Couldn't upload file ${error}`);
   }
 });
 
