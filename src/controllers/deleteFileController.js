@@ -1,10 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const userService = require("../services/userService");
-const fs = require("fs"); // Temporary
-const path = require("path"); // Temporary
+const supabase = require("../utils/supabaseClient");
 
 const deleteFileById = asyncHandler(async (req, res) => {
   try {
+    const file = await userService.getFileById(+req.body.file_id);
+
+    await supabase.storage.from("file_uploader").remove([file.relativePath]);
+
     // Delete file record from the database
     await userService.deleteFileById(+req.body.file_id);
     if (!req.body.folder_id) {

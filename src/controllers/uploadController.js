@@ -14,9 +14,10 @@ const uploadFile = asyncHandler(async (req, res) => {
 
     // Supabase
 
+    const filePath = `public/${Date.now()}-${req.file.originalname}`;
     const { data, error } = await supabase.storage
       .from("file_uploader")
-      .upload(`public/${Date.now()}-${req.file.originalname}`, req.file.buffer);
+      .upload(filePath, req.file.buffer);
 
     if (error) {
       throw new Error(`Supabase upload error: ${error.message}`);
@@ -35,6 +36,7 @@ const uploadFile = asyncHandler(async (req, res) => {
       req.file.mimetype,
       req.file.size,
       fileUrl,
+      filePath,
       +upload_destination,
       req.user.id
     );
