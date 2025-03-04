@@ -97,15 +97,7 @@ async function renameFolder(id, new_name) {
   });
 }
 
-async function createNewFile(
-  name,
-  type,
-  size,
-  destination,
-  relativePath,
-  folderId,
-  userId
-) {
+async function createNewFile(name, type, size, relativePath, folderId, userId) {
   await executeWithPrisma(async (prisma) => {
     await prisma.file.create({
       data: {
@@ -113,7 +105,6 @@ async function createNewFile(
         type: type,
         size: size,
         relativePath: relativePath,
-        destination: destination,
         folderId: folderId,
         userId: userId,
       },

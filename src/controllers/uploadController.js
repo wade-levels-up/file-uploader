@@ -14,7 +14,9 @@ const uploadFile = asyncHandler(async (req, res) => {
 
     // Supabase
 
-    const filePath = `${Date.now()}-${req.file.originalname}`;
+    const filePath = `${req.user.username}-${req.user.id}-${Date.now()}-${
+      req.file.originalname
+    }`;
     const { data, error } = await supabase.storage
       .from("file_uploader")
       .upload(filePath, req.file.buffer);
@@ -23,19 +25,12 @@ const uploadFile = asyncHandler(async (req, res) => {
       throw new Error(`Supabase upload error: ${error.message}`);
     }
 
-    const publicURL = supabase.storage
-      .from("file_uploader")
-      .getPublicUrl(data.path);
-
-    const fileUrl = publicURL.data.publicUrl;
-
     // Storing meta-data in local PostgreSQL database
 
     await userService.createNewFile(
       req.file.originalname,
       req.file.mimetype,
       req.file.size,
-      fileUrl,
       filePath,
       +upload_destination,
       req.user.id

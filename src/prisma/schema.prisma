@@ -48,7 +48,6 @@ model File {
   type         String
   size         Int
   relativePath String
-  destination  String
   created      DateTime @default(now())
   Folder       Folder?  @relation(fields: [folderId], references: [id])
   folderId     Int?
