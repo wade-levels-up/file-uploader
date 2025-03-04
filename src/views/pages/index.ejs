@@ -32,6 +32,9 @@
                     </li>
                 </ul>
             </form>
+            <% if (locals.error) { %>
+                <span><%= error %></span>
+            <% } %>
             <span>No account? No worries! <a href="/sign-up">Sign Up</a> here.</span>
         <% } %>
     </main>
