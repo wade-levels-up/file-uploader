@@ -1,5 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Londrina+Sketch&family=Parkinsans:wght@300..800&display=swap');
+
 :root {
     font-size: 16px;
+    font-family: "Microsoft Sans Serif";
+    font-weight: 300;
+    --background-color-1: rgb(11, 0, 0);
+    --background-color-1-trans: rgba(11, 0, 0, 0.9);
+    --text-color-1: rgb(231, 255, 233);
+    --text-color-2: rgb(231, 255, 233);
+
+    --border-style: 5px double var(--text-color-1);
 }
 
 * {
@@ -9,8 +19,61 @@
     list-style: none;
 }
 
+body {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--background-color-1);
+    color: white;
+    position: relative;
+}
+
+
+header, main, footer {
+    display: flex;
+    width: 100%;
+}
+
+header {
+    color: black;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px;
+    background-color: rgb(214, 211, 206);
+    border-bottom: 2px outset
+}
+
+main {
+    background: center / cover no-repeat url("su-san-lee-E_eWwM29wfU-unsplash.webp");
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+footer {
+    gap: 12px;
+    align-items: flex-start;
+}
+
 input, button, textarea, select {
     font: inherit;
+    color: var(--text-color-1);
+    background-color: var(--background-color-1);
+    padding: 3px 6px;
+}
+
+input, textarea, select {
+    display: block;
+    border-radius: 8px;
+    margin-top: 6px;
+}
+input {
+    cursor: text;
+}
+
+select {
+    cursor: pointer;
 }
 
 p, h1, h2, h3, h4, h5, h6 {
@@ -21,36 +84,189 @@ p {
     text-wrap: pretty;
 }
 
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+header a {
+    color: black;
+    border-radius: 0px;
+    border: 2px outset;
+    padding: 3px 6px;
+}
+
 h1, h2, h3, h4, h5, h6 {
     text-wrap: balance;
 }
 
-body {
-    background-color: black;
-    color: azure;
+fieldset {
+    display: block;
+    padding: 12px;
+    width: 100%;
 }
 
-.folder-li {
-    padding: 8px;
-}
-
-.folder-li div {
+button {
     display: flex;
-    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    padding: 3px;
+    background-color: transparent;
+    color: var(--text-color-1);
+    border: 2px solid var(--text-color-1);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background-color: rgb(214, 211, 206);
+    border-top: 2px outset;
+    padding: 2px;
+    position: sticky;
+    bottom: 0px;
+}
+
+nav div {
+    display: flex;
     gap: 12px;
-    border: 1px solid white;
+}
+
+nav a {
+    color: black;
+}
+
+nav button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background-color: rgb(214, 211, 206);
+    border: 2px outset;
+    padding: 3px 6px;
+    border-radius: 0px;
+}
+
+nav button:focus, nav button:hover, header a:focus, header a:hover {
+    background-color: rgb(233, 230, 224);
+    border: 2px inset;
+}
+
+i {
+    padding: 6px;
+}
+
+.menu-container-section {
+    margin-top: 1rem;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-section {
+    background-color: var(--background-color-1-trans);
+    padding: 12px 36px;
+    border: 1px solid var(--text-color-1);
+    border-radius: 24px;
+}
+
+/* Modals */
+
+.upload-file-modal, .create-folder-modal {
+    position: absolute;
+    top: 0px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-color-1-trans);
+    z-index: 2;
+}
+
+.folder-menu-modal {
+    background-color: var(--background-color-1-trans);
+}
+
+/* Forms */
+
+.upload-file-form, .create-folder-form {
+    display: flex;
+    justify-content: center;
+    border: 1px solid var(--text-color-1);
+    border-radius: 6px;
+    padding: 12px;
+    width: 90%;
+    max-width: 500px;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.upload-file-form li, .create-folder-form li {
+    padding: 3px;
+}
+
+.button-li {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+label {
+    display: block;
+    padding: 3px;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+.custom-file-label {
+    padding: 3px 6px;
+    background-color: var(--background-color-1-trans);
     border-radius: 3px;
+    border: 1px solid white;
+    cursor: pointer;
 }
 
-.folder-li form ul {
-    display: flex;
+/* File & Folder Styling */
+
+.viewing-folder {
+    color: black;
 }
 
-.file-li {
+.file-icon, .folder-icon {
+    font-size: 3rem;
+}
+
+.filename {
+    max-width: 16ch;
+    text-align: center;
+}
+
+.file-li, .folder-li {
     display: flex;
-    gap: 12px;
-    padding: 3px;
+    flex-direction: column;
     align-items: center;
+    filter: drop-shadow(0px 0px 10px rgb(0, 0, 0));
+}
+
+.files-ul, .folders-ul {
+    display: grid;
+    width: 100%;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    padding: 16px;
 }

@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Uploader</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
+<%- include("../partials/head") %>
 <body>
     <header>
-        <h1>Home</h1>
+        <h1>DataCave95</h1>
     </header>
     <main>
-        <% if (locals.user) { %>
-            <h2>Welcome back <%= user.username %></h2>
-            <a href="/dashboard">Continue To Dashboard</a>
-            <a href="/log-out">Logout</a>
-        <% } else { %>
-            <h2>Log In</h2>
-            <form action="/login" method="post">
-                <ul>
-                    <li>
-                        <label for="username">Username: </label>
-                        <input type="text" name="username" id="username" minlength="1" maxlength="30" required>
-                    </li>
-                    <li>
-                        <label for="password">Password: </label>
-                        <input type="password" name="password" id="password" minlength="8" required>
-                    </li>
-                    <li>
-                        <button type="submit">Submit</button>
-                    </li>
-                </ul>
-            </form>
-            <% if (locals.error) { %>
-                <span><%= error %></span>
+        <section class="menu-container-section">
+            <% if (locals.user) { %>
+                <h2>Welcome back <%= user.username %></h2>
+            <% } else { %>
+                <div class="menu-section">
+                    <h2>Log In</h2>
+                    <form action="/login" method="post">
+                        <ul>
+                            <li>
+                                <label for="username">Username</label>
+                                <input type="text" name="username" id="username" minlength="1" maxlength="30" required>
+                            </li>
+                            <li>
+                                <label for="password">Password</label>
+                                <input type="password" name="password" id="password" minlength="8" required>
+                            </li>
+                            <li>
+                                <% if (locals.error) { %>
+                                    <span><%= error %></span>
+                                <% } %>
+                            </li>
+                            <li>
+                                <button type="submit">Submit</button>
+                            </li>
+                            <li><span>No account? <a href="/sign-up">Sign up here</a></span></li>
+                        </ul>
+                    </form>
+                </div>
             <% } %>
-            <span>No account? No worries! <a href="/sign-up">Sign Up</a> here.</span>
-        <% } %>
+        </section>
     </main>
-    <footer>
-
-    </footer>
+    <% if (locals.user) { %>
+        <nav>
+            <div>
+                <button><a href="/dashboard">🖥️ Continue To Dashboard</a></button>
+                <button><a href="/log-out">Logout</a></button>
+            </div>
+        </nav>
+    <% } %>
 </body>
 </html>

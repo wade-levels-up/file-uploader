@@ -1,121 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Uploader</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
+<%- include("../partials/head") %>
 <body>
     <header>
-        <h1><%= user.username %>'s Dashboard</h1><a href="/log-out">Logout</a>
+        <h1><%= user.username %>'s Files</h1>
+        <% if ( locals.viewing_file || locals.viewing_folder ) { %>
+            <a href="javascript:history.back()">⏪ Back</a>
+        <% } %>
     </header>
-    <main>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <ul>
-                <li>
-                    <label for="file">Upload New File:</label>
-                    <input type="file" id="file" name="file" accept=".jpeg, .jpg, .png, .wav, .mp3, .pdf, .doc, .docx, .txt" required>
-                </li>
-                <li>
-                    <label for="upload_destination">Upload Destination: </label>
-                    <select name="upload_destination" id="upload_destination">
-                        <option value="Home">Home</option>
+
+    <main> 
+
+        <div class="upload-file-modal">
+            <form class="upload-file-form" action="/upload" method="post" enctype="multipart/form-data">
+                <ul>
+                    <li>
+                        <label for="file" class="custom-file-label"><i class="fa-solid fa-file-arrow-up"></i>Click Here To Upload File</label>
+                        <input type="file" id="file" name="file" class="hidden-file-input" accept=".jpeg, .jpg, .png, .wav, .mp3, .pdf, .doc, .docx, .txt" required>
+                        <span id="file-name">No file chosen</span>
+                    </li>
+                    <li>
+                        <label for="upload_destination"><i class="fa-solid fa-folder-plus"></i></i>Add To Folder</label>
+                        <select name="upload_destination" id="upload_destination">
+                            <option value="Home">Home</option>
+                            <% if ( locals.all_folders ) { %>
+                                <% all_folders.forEach((folder) => { %>
+                                    <option value="<%= folder.id %>"><%= folder.name %></option>
+                                <% }) %>
+                            <% } %>
+                        </select>
+                    </li>
+                    <li class="button-li">
+                        <button onclick="toggleFileModal()" type="button">Close</button>
+                        <button onclick="toggleFileModal()" type="submit">Upload</button>
+                    </li>
+                </ul>
+            </form> 
+        </div>
+
+        <div class="create-folder-modal">
+            <form class="create-folder-form" action="/new-folder" method="post">
+                <ul>
+                    <li class="button-li"><button onclick="toggleFolderModal()" type="button">X</button></li>
+                    <li>
+                        <label for="folder">New folder name</label>
+                        <input type="text" id="folder" name="folder" required>
+                    </li>
+                    <li class="button-li">
+                        <button onclick="toggleFolderModal()" type="submit">Create Folder</button>
+                    </li>
+                </ul>
+            </form>
+            <form class="create-folder-form" action="/rename-folder" method="post">
+                <ul>
+                    <li>
+                        <label for="folder_id">Choose folder to rename</label>
+                        <select name="folder_id" id="folder_id">
+                            <% if ( locals.all_folders ) { %>
+                                <% all_folders.forEach((folder) => { %>
+                                    <option value="<%= folder.id %>"><%= folder.name %></option>
+                                <% }) %>
+                            <% } %>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="rename">New folder name</label>
+                        <input type="text" id="rename" name="rename" required>
+                    </li>
+                    <li class="button-li">
+                        <button type="submit">Rename Folder</button>
+                    </li>
+                </ul>
+            </form>
+            <form class="create-folder-form" action="/delete-folder" method="post">
+                <ul>
+                    <li>
+                        <label for="folder_id">Choose folder to delete</label>
+                        <select name="folder_id" id="folder_id">
                         <% if ( locals.all_folders ) { %>
                             <% all_folders.forEach((folder) => { %>
-                                <option value="<%= folder.id %>">📁 <%= folder.name %></option>
+                                <option value="<%= folder.id %>"><%= folder.name %></option>
                             <% }) %>
                         <% } %>
-                    </select>
-                </li>
-                <li>
-                    <button type="submit">Upload</button>
-                </li>
-            </ul>
-        </form>
-        <form action="/new-folder" method="post">
-            <ul>
-                <li>
-                    <h2>Create New Folder</h2>
-                </li>
-                <li>
-                    <label for="folder">Folder name:</label>
-                    <input type="text" id="folder" name="folder" required>
-                </li>
-                <li>
-                    <button type="submit">Create</button>
-                </li>
-            </ul>
-        </form>  
+                        </select>
+                    </li>
+                    <li class="button-li">
+                        <button type="submit">Delete Folder</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+
         <section>
             <% if ( !locals.viewing_file ) { %>
                 <% if ( locals.current_folders ) { %>
-                    <h3>📂 Viewing Folder: <%= viewing_folder ? viewing_folder : 'Home' %></h3>
-                    <div>
-                        <h3>Folders within this destination</h3>
-                        <% if (locals.viewing_folder) { %>
-                            <a href="/dashboard">Back to home</a>
-                        <% } %>
-                    </div>
-                    <ul>
+                    <h3 class="viewing-folder"><i class="fa-solid fa-folder-open"></i>Viewing Folder - <%= viewing_folder ? viewing_folder : 'Home' %></h3>
+                    <ul class="folders-ul">
                         <% current_folders.forEach((folder) => { %>
                             <li class="folder-li">
-                                <div>
-                                    <span>📁</span>
-                                    <a href="/dashboard/folder/<%= folder.id %>?name=<%= folder.name %>"><%= folder.name %></a> 
-                                    <form action="/rename-folder" method="post">
-                                        <ul>
-                                            <li>
-                                                <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
-                                            </li>
-                                            <li>
-                                                <label for="rename">Rename folder: </label>
-                                                <input type="text" id="rename" name="rename" required>
-                                            </li>
-                                            <li>
-                                                <button type="submit">Submit</button>
-                                            </li>
-                                        </ul>
-                                    </form>
-                                    <form action="/delete-folder" method="post">
-                                        <input type="hidden" id="folder_id" name="folder_id" value="<%= folder.id %>">
-                                        <button>DELETE</button>
-                                    </form>
-                                </div>
+                                <a class="folder-icon" href="/dashboard/folder/<%= folder.id %>?name=<%= folder.name %>">📁</a>
+                                <a href="/dashboard/folder/<%= folder.id %>?name=<%= folder.name %>"><%= folder.name %></a> 
                             </li>
                         <% }) %>
                     </ul>
                 <% } %>
-                <% if (locals.files) { %>
-                    <h3>Files within this destination</h3>  
-                    <ul>
+                <% if (locals.files.length > 0 ) { %> 
+                    <ul class="files-ul">
                         <% files.forEach((file) => { %>
                             <li class="file-li">
-                                <a href="/dashboard/file/<%= file.id %>?name=<%= file.name %>">💾 <%= file.name %></a>
-                                <a href="/download/<%= file.id %>">Download</a>
-                                <form action="/delete-file" method="post">
-                                    <input type="hidden" id="folder_id" name="folder_id" value="<%= file.folderId %>">
-                                    <input type="hidden" id="file_id" name="file_id" value="<%= file.id %>">
-                                    <button>Delete</button>
-                                </form>
+                                <a class="filename file-icon" href="/dashboard/file/<%= file.id %>?name=<%= file.name %>">💾</a>
+                                <a class="filename" href="/dashboard/file/<%= file.id %>?name=<%= file.name %>"><%= file.name %></a>
                             </li>
                         <% }) %>
                     </ul>
                 <% } %>
             <% } else { %>
-                <h3>Viewing file details: <%= viewing_file.name %></h4>
-                <div>
-                    <p>Name: <%= viewing_file.name %></p>
-                    <p>Size: <%= (viewing_file.size / 1048576 ).toFixed(2) %> <abbr title="megabytes">MB's</abbr></p>
-                    <p>Type: <%= viewing_file.type %></p>
-                    <p>Added: <%= viewing_file.created %></p>
-                </div>
-                <a href="javascript:history.back()">Back</a>
+                <section class="menu-container-section">
+                    <div class="menu-section">
+                        <ul>
+                            <li>
+                                <h3>File details: <%= viewing_file.name %></h4>
+                            </li>
+                            <li>
+                                <p>Name: <%= viewing_file.name %></p>
+                            </li>
+                            <li>
+                                <p>Size: <%= (viewing_file.size / 1024 ).toFixed(2) %> <abbr title="kilobytes">kb</abbr></p>
+                            </li>
+                            <li>
+                                <p>Type: <%= viewing_file.type %></p>
+                            </li>
+                            <li>
+                                <p>Added: <%= viewing_file.created %></p>
+                            </li>
+                            <li class="button-li">
+                                <a href="/download/<%= viewing_file.id %>"><i class="fa-solid fa-download"></i>Download</a>
+                                <form action="/delete-file" method="post">
+                                    <input type="hidden" id="folder_id" name="folder_id" value="<%= viewing_file.folderId %>">
+                                    <input type="hidden" id="file_id" name="file_id" value="<%= viewing_file.id %>">
+                                    <button>Delete</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
             <% } %>
         </section>          
     </main>
-    <footer>
 
-    </footer>
+    <nav>
+        <div>
+            <button onclick="toggleFileModal()">💾 Add File</button>
+            <button onclick="toggleFolderModal()">🗂️ Folder Menu</button>
+        </div>
+        <div>
+            <button><a href="/log-out">⛓️‍💥 Logout</a></button>
+        </div>
+    </nav>
+
+    <script>
+        const fileModal = document.querySelector(".upload-file-modal")
+        const folderModal = document.querySelector(".create-folder-modal")
+
+        function toggleFileModal() {
+            fileModal.style.display === "flex" ? fileModal.style.display = "none" : fileModal.style.display = "flex";
+        }
+
+        function toggleFolderModal() {
+            folderModal.style.display === "flex" ? folderModal.style.display = "none" : folderModal.style.display = "flex";
+        }
+
+        document.getElementById('file').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'No file chosen';
+            document.getElementById('file-name').textContent = fileName;
+        });
+    </script>
 </body>
 </html>
