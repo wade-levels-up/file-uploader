@@ -41,10 +41,10 @@
         <div class="create-folder-modal">
             <form class="create-folder-form" action="/new-folder" method="post">
                 <ul>
-                    <li class="button-li"><button onclick="toggleFolderModal()" type="button">X</button></li>
+                    <li class="button-li"><button onclick="toggleFolderModal()" type="button">Close</button></li>
                     <li>
                         <label for="folder">New folder name</label>
-                        <input type="text" id="folder" name="folder" required>
+                        <input type="text" id="folder" name="folder" minlength="1" maxlength="30" required>
                     </li>
                     <li class="button-li">
                         <button onclick="toggleFolderModal()" type="submit">Create Folder</button>
@@ -64,7 +64,7 @@
                         </select>
                     </li>
                     <li>
-                        <label for="rename">New folder name</label>
+                        <label for="rename">Enter a new name</label>
                         <input type="text" id="rename" name="rename" required>
                     </li>
                     <li class="button-li">
@@ -84,6 +84,9 @@
                         <% } %>
                         </select>
                     </li>
+                    <li>
+                        <span class="error-msg">Warning: Deleting a folder will delete all files contained within it</span>
+                    </li>
                     <li class="button-li">
                         <button type="submit">Delete Folder</button>
                     </li>
@@ -94,12 +97,12 @@
         <section>
             <% if ( !locals.viewing_file ) { %>
                 <% if ( locals.current_folders ) { %>
-                    <h3 class="viewing-folder"><i class="fa-solid fa-folder-open"></i>Viewing Folder - <%= viewing_folder ? viewing_folder : 'Home' %></h3>
+                    <h3 class="viewing-folder">📁 Viewing Folder - <%= viewing_folder ? viewing_folder : 'Home' %></h3>
                     <ul class="folders-ul">
                         <% current_folders.forEach((folder) => { %>
                             <li class="folder-li">
                                 <a class="folder-icon" href="/dashboard/folder/<%= folder.id %>?name=<%= folder.name %>">📁</a>
-                                <a href="/dashboard/folder/<%= folder.id %>?name=<%= folder.name %>"><%= folder.name %></a> 
+                                <a class="folder-name" href="/dashboard/folder/<%= folder.id %>?name=<%= folder.name %>"><%= folder.name %></a> 
                             </li>
                         <% }) %>
                     </ul>
@@ -107,9 +110,19 @@
                 <% if (locals.files.length > 0 ) { %> 
                     <ul class="files-ul">
                         <% files.forEach((file) => { %>
-                            <li class="file-li">
-                                <a class="filename file-icon" href="/dashboard/file/<%= file.id %>?name=<%= file.name %>">💾</a>
-                                <a class="filename" href="/dashboard/file/<%= file.id %>?name=<%= file.name %>"><%= file.name %></a>
+                            <li draggable="true" class="file-li" ondragstart="console.log('<%= file.id %>')">
+                                <a class="file-icon" href="/dashboard/file/<%= file.id %>?name=<%= file.name %>">
+                                    <% if (file.type.startsWith('image/')) { %>
+                                        🖼️
+                                    <% }  else if (file.type.startsWith('text/')) { %>
+                                        📝
+                                    <% }  else if (file.type.startsWith('audio/')) { %>
+                                        💿
+                                    <% } else { %>
+                                        💾
+                                    <% } %>
+                                </a>
+                                <a class="file-name" href="/dashboard/file/<%= file.id %>?name=<%= file.name %>"><%= file.name %></a>
                             </li>
                         <% }) %>
                     </ul>

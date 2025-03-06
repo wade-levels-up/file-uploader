@@ -8,8 +8,6 @@
     --background-color-1-trans: rgba(11, 0, 0, 0.9);
     --text-color-1: rgb(231, 255, 233);
     --text-color-2: rgb(231, 255, 233);
-
-    --border-style: 5px double var(--text-color-1);
 }
 
 * {
@@ -58,7 +56,7 @@ footer {
 
 input, button, textarea, select {
     font: inherit;
-    color: var(--text-color-1);
+    color: white;
     background-color: var(--background-color-1);
     padding: 3px 6px;
 }
@@ -112,8 +110,8 @@ button {
     justify-content: center;
     align-items: center;
     background-color: transparent;
-    color: var(--text-color-1);
-    border: 2px solid var(--text-color-1);
+    color: white;
+    border: 2px solid white;
     border-radius: 6px;
     cursor: pointer;
 }
@@ -124,7 +122,7 @@ nav {
     justify-content: space-between;
     background-color: rgb(214, 211, 206);
     border-top: 2px outset;
-    padding: 2px;
+    padding: 2px 8px;
     position: sticky;
     bottom: 0px;
 }
@@ -171,6 +169,20 @@ i {
     padding: 12px 36px;
     border: 1px solid var(--text-color-1);
     border-radius: 24px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.error-msg {
+    color: red;
+    max-width: 25ch;
+    text-wrap: wrap;
+    hyphens: auto;
+    line-height: 1.5rem;
+}
+
+#file-name {
+    margin-left: 10px;
 }
 
 /* Modals */
@@ -182,6 +194,7 @@ i {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
     width: 100%;
     height: 100%;
     background-color: var(--background-color-1-trans);
@@ -244,16 +257,23 @@ label {
 /* File & Folder Styling */
 
 .viewing-folder {
-    color: black;
+    background-color: var(--background-color-1-trans);
+    color: white;
+    padding: 3px 6px;
+    position: sticky;
+    top: -1px;
+    z-index: 1;
 }
 
 .file-icon, .folder-icon {
     font-size: 3rem;
 }
 
-.filename {
-    max-width: 16ch;
+.folder-name, .file-name {
     text-align: center;
+    max-width: 12ch;
+    hyphens: auto;
+    word-wrap: break-word;
 }
 
 .file-li, .folder-li {
@@ -268,5 +288,5 @@ label {
     width: 100%;
     gap: 24px;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    padding: 16px;
+    padding: 20px;
 }

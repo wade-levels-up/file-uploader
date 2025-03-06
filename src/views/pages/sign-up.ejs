@@ -3,28 +3,40 @@
 <%- include("../partials/head") %>
 <body>
     <header>
-        <h1>Sign Up</h1>
+        <h1>💾 DataDrive95</h1>
+        <a href="/">🏠 Home</a>
     </header>
     <main>
-        <% if (locals.error) { %>
-            <span><%= locals.error %></span>
-        <% } %>
-        <form action="/sign-up" method="post">
-            <ul>
-                <li>
-                    <label for="username">Username: </label>
-                    <input type="text" name="username" id="username" minlength="1" maxlength="30" required>
-                </li>
-                <li>
-                    <label for="password">Password: </label>
-                    <input type="password" name="password" id="password" minlength="8" required>
-                </li>
-                <li>
-                    <button type="submit">Submit</button>
-                </li>
-            </ul>
-        </form>
-        <a href="/">Return Home</a>
+        <section class="menu-container-section">
+            <div class="menu-section">
+                <form action="/sign-up" method="post">
+                    <h2>Sign Up</h2>
+                    <br>
+                    <ul>
+                        <li>
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" required>
+                        </li>
+                        <li>
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" required>
+                        </li>
+                        <li>
+                            <% if (locals.errors) { %>
+                                <ol>
+                                    <% errors.forEach((error) => { %>
+                                        <li class="error-msg"><%= error.msg %></li>
+                                    <% }) %>
+                                </ol>
+                            <% } %>
+                        </li>
+                        <li class="button-li">
+                            <button type="submit">Submit</button>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </section>
     </main>
 </body>
 </html>

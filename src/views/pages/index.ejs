@@ -3,7 +3,7 @@
 <%- include("../partials/head") %>
 <body>
     <header>
-        <h1>DataCave95</h1>
+        <h1>💾 DataDrive95</h1>
     </header>
     <main>
         <section class="menu-container-section">
@@ -12,25 +12,26 @@
             <% } else { %>
                 <div class="menu-section">
                     <h2>Log In</h2>
+                    <br>
                     <form action="/login" method="post">
                         <ul>
                             <li>
                                 <label for="username">Username</label>
-                                <input type="text" name="username" id="username" minlength="1" maxlength="30" required>
+                                <input type="text" name="username" id="username" required>
                             </li>
                             <li>
                                 <label for="password">Password</label>
-                                <input type="password" name="password" id="password" minlength="8" required>
+                                <input autocomplete="current-password" type="password" name="password" id="password" required>
                             </li>
                             <li>
                                 <% if (locals.error) { %>
-                                    <span><%= error %></span>
+                                    <span class="error-msg"><%= error %></span>
                                 <% } %>
                             </li>
-                            <li>
+                            <li class="button-li">
                                 <button type="submit">Submit</button>
                             </li>
-                            <li><span>No account? <a href="/sign-up">Sign up here</a></span></li>
+                            <li><span>No account? <a style="color: blue" href="/sign-up">Sign up here</a></span></li>
                         </ul>
                     </form>
                 </div>
@@ -41,7 +42,9 @@
         <nav>
             <div>
                 <button><a href="/dashboard">🖥️ Continue To Dashboard</a></button>
-                <button><a href="/log-out">Logout</a></button>
+            </div>
+            <div>
+                <button><a href="/log-out">⛓️‍💥 Logout</a></button>
             </div>
         </nav>
     <% } %>
