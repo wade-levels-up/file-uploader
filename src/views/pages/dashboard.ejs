@@ -51,47 +51,49 @@
                     </li>
                 </ul>
             </form>
-            <form class="create-folder-form" action="/rename-folder" method="post">
-                <ul>
-                    <li>
-                        <label for="folder_id">Choose folder to rename</label>
-                        <select name="folder_id" id="folder_id">
+            <% if ( locals.all_folders.length !== 0 ) { %>
+                <form class="create-folder-form" action="/rename-folder" method="post">
+                    <ul>
+                        <li>
+                            <label for="folder_id">Choose folder to rename</label>
+                            <select name="folder_id" id="folder_id">
+                                <% if ( locals.all_folders ) { %>
+                                    <% all_folders.forEach((folder) => { %>
+                                        <option value="<%= folder.id %>"><%= folder.name %></option>
+                                    <% }) %>
+                                <% } %>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="rename">Enter a new name</label>
+                            <input type="text" id="rename" name="rename" required>
+                        </li>
+                        <li class="button-li">
+                            <button type="submit">Rename Folder</button>
+                        </li>
+                    </ul>
+                </form>
+                <form class="create-folder-form" action="/delete-folder" method="post">
+                    <ul>
+                        <li>
+                            <label for="folder_id">Choose folder to delete</label>
+                            <select name="folder_id" id="folder_id">
                             <% if ( locals.all_folders ) { %>
                                 <% all_folders.forEach((folder) => { %>
                                     <option value="<%= folder.id %>"><%= folder.name %></option>
                                 <% }) %>
                             <% } %>
-                        </select>
-                    </li>
-                    <li>
-                        <label for="rename">Enter a new name</label>
-                        <input type="text" id="rename" name="rename" required>
-                    </li>
-                    <li class="button-li">
-                        <button type="submit">Rename Folder</button>
-                    </li>
-                </ul>
-            </form>
-            <form class="create-folder-form" action="/delete-folder" method="post">
-                <ul>
-                    <li>
-                        <label for="folder_id">Choose folder to delete</label>
-                        <select name="folder_id" id="folder_id">
-                        <% if ( locals.all_folders ) { %>
-                            <% all_folders.forEach((folder) => { %>
-                                <option value="<%= folder.id %>"><%= folder.name %></option>
-                            <% }) %>
-                        <% } %>
-                        </select>
-                    </li>
-                    <li>
-                        <span class="error-msg">Warning: Deleting a folder will delete all files contained within it</span>
-                    </li>
-                    <li class="button-li">
-                        <button type="submit">Delete Folder</button>
-                    </li>
-                </ul>
-            </form>
+                            </select>
+                        </li>
+                        <li>
+                            <span class="error-msg">Warning: Deleting a folder will delete all files contained within it</span>
+                        </li>
+                        <li class="button-li">
+                            <button type="submit">Delete Folder</button>
+                        </li>
+                    </ul>
+                </form>
+            <% } %>
         </div>
 
         <section>
@@ -158,7 +160,8 @@
                     </div>
                 </section>
             <% } %>
-        </section>          
+        </section>
+        <%- include ("../partials/credit") %>         
     </main>
 
     <nav>
