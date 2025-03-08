@@ -73,6 +73,36 @@
                         </li>
                     </ul>
                 </form>
+                <form class="create-folder-form" action="/share-folder" method="get">
+                    <ul>
+                        <li>
+                            <label for="folder_id">Choose folder to share</label>
+                            <select name="folder_id" id="folder_id">
+                            <% if ( locals.all_folders ) { %>
+                                <% all_folders.forEach((folder) => { %>
+                                    <option value="<%= folder.id %>"><%= folder.name %></option>
+                                <% }) %>
+                            <% } %>
+                            </select>
+                        </li>
+                        <li>
+                            <div class="radio">
+                                <span>Link duration</span>
+                                <input type="radio" id="durationChoice1" name="duration" value="1">
+                                <label for="durationChoice1">1 day</label>
+                                <input type="radio" id="durationChoice1" name="duration" value="7">
+                                <label for="durationChoice2">7 days</label>
+                            </div>
+                        </li>
+                        <li>
+                            <span>*** Share Link ***</span>
+                            <button>copy</button>
+                        </li>
+                        <li class="button-li">
+                            <button type="submit">Generate Share Link</button>
+                        </li>
+                    </ul>
+                </form>
                 <form class="create-folder-form" action="/delete-folder" method="post">
                     <ul>
                         <li>
@@ -112,7 +142,7 @@
                 <% if (locals.files.length > 0 ) { %> 
                     <ul class="files-ul">
                         <% files.forEach((file) => { %>
-                            <li draggable="true" class="file-li" ondragstart="console.log('<%= file.id %>')">
+                            <li class="file-li" ondragstart="console.log('<%= file.id %>')">
                                 <a class="file-icon" href="/dashboard/file/<%= file.id %>?name=<%= file.name %>">
                                     <% if (file.type.startsWith('image/')) { %>
                                         🖼️
@@ -179,10 +209,12 @@
         const folderModal = document.querySelector(".create-folder-modal")
 
         function toggleFileModal() {
+            folderModal.style.display = "none";
             fileModal.style.display === "flex" ? fileModal.style.display = "none" : fileModal.style.display = "flex";
         }
 
         function toggleFolderModal() {
+            fileModal.style.display = "none";
             folderModal.style.display === "flex" ? folderModal.style.display = "none" : folderModal.style.display = "flex";
         }
 

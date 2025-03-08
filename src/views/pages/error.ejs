@@ -8,7 +8,18 @@
     </header>
     <main>
         <% if (locals.error) { %>
-            <span><%= locals.error %></span>
+            <section class="menu-container-section">
+                <div class="menu-section">
+                    <ul>
+                        <li>
+                            <span class="error-msg"><%= locals.error %></span>
+                        </li>
+                        <li>
+                            <a href="/dashboard">Return To Dashboard</a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
         <% } %>
     </main>
     <%- include ("../partials/credit") %> 
