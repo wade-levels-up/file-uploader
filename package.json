@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "prisma generate",
+    "postinstall": "npx prisma generate --schema=./src/prisma/schema.prisma",
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch app.js",
