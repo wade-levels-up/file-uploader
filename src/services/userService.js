@@ -125,6 +125,8 @@ async function getFilesByFolderId(folderId, userId) {
 }
 
 async function getFileById(id) {
+  console.log("***************** In the database *******************");
+  console.log(id);
   return await executeWithPrisma(async (prisma) => {
     const file = await prisma.file.findUnique({
       where: {
